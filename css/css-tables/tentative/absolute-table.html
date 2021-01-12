@@ -1,0 +1,44 @@
+<!doctype html>
+<script src='/resources/testharness.js'></script>
+<script src='/resources/testharnessreport.js'></script>
+<script src="/resources/check-layout-th.js"></script>
+<title>absolute positioning</title>
+<link rel="stylesheet" type="text/css" href="./support/table-tentative.css">
+<link rel="author" title="Aleks Totic" href="atotic@chromium.org" />
+<link rel="help" href="https://drafts.csswg.org/css-position-3/" />
+<style>
+  main table {
+    margin-top: 20px;
+    border-spacing: 20px 20px;
+    background: gray;
+  }
+  main td {
+    background: yellow;
+    width: 100px;
+    height: 30px;
+  }
+  .container {
+    width: 300px;
+    height: 200px;
+    position: relative;
+    background: #ddd;
+    padding: 30px;
+  }
+</style>
+<h1>Position absolute</h1>
+<p>Legacy chrome did not support TR/TBODY as absolute containers.</p>
+<main>
+<h2>Rows</h2>
+<p class="test">Absolutely positioned row</p>
+<div class="container">
+  <div></div>
+  <table>
+    <tr><td>0,0</td><td>0,1</td></tr>
+    <tr style="position:absolute;" data-offset-x=50 data-offset-y=120><td>row2</td></tr>
+    <tr><td>2,0</td><td>2,1</td></tr>
+  </table>
+</div>
+</main>
+<script>
+  checkLayout("table");
+</script>

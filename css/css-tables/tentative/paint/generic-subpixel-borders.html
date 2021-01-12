@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<title>Subpixel borders</title>
+<script src='/resources/testharness.js'></script>
+<script src='/resources/testharnessreport.js'></script>
+<script src="/resources/check-layout-th.js"></script>
+<!-- bullshit to fool the linter. No intention of checking this in -->
+<style>
+  .b01 {
+    border: 0.1px solid black;
+  }
+  .b03 {
+    border: 0.3333px solid black;
+  }
+  .b05 {
+    border: 0.5px solid black;
+  }
+  .b10 {
+    border: 1px solid black;
+  }
+  .b20 {
+    border: 2px solid black;
+  }
+  div {
+    width: 100px;
+    height:100px;
+    margin: 10px;
+  }
+</style>
+<p>In Chrome, borders are never than 1px wide. In FF/Safari and hidpi screens, 0.5px border will be half the width of 1px border.</p>
+<div class="b01">
+</div>
+<div class="b03">
+</div>
+<div class="b05">
+</div>
+<div class="b10">
+</div>
+<div class="b20"  data-expected-width=104>
+</div>
+<script>
+  for (let d of Array.from(document.querySelectorAll('div'))) {
+    d.innerText = d.offsetWidth + "px";
+  }
+  checkLayout("div");
+</script>

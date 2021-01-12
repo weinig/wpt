@@ -1,0 +1,69 @@
+<!doctype html>
+<script src='/resources/testharness.js'></script>
+<script src='/resources/testharnessreport.js'></script>
+<title>TABLE dynamic css properties</title>
+<link rel="author" title="Aleks Totic" href="atotic@chromium.org" />
+<link rel="help" href="https://drafts.csswg.org/css-tables-3/" />
+<style>
+  main table {
+    border-collapse: separate;
+    border-spacing: 20px;
+    background: gray;
+  }
+  main td {
+    padding: 0;
+    background: #aaa;
+  }
+  main td > div {
+    height: 30px;
+    background: yellow;
+    display:inline-block;
+  }
+</style>
+<body>
+<main>
+<table style="width:400px">
+  <tr>
+    <td style="width:100px"><div style="width:100px"></div></td>
+    <td><div style="width:100px"></div></td>
+  </tr>
+  <tr>
+    <td style="width:150px"><div style="width:100px"></div></td>
+    <td><div style="width:100px"></div></td>
+  </tr>
+</table>
+</main>
+<script>
+
+let table = document.querySelector("table");
+let td = table.querySelector("table td");
+let td2 = table.querySelectorAll("table td").item(1);
+
+test( _=> {
+  table.style.tableLayout = "fixed";
+  document.body.offsetTop;
+  assert_equals(td.offsetWidth, 100);
+  table.style.tableLayout = "auto";
+  assert_equals(td.offsetWidth, 150);
+}, "dynamic table-layout" );
+
+test( _=> {
+  table.style.tableLayout = "auto";
+  table.style.borderCollapse = "separate"
+  document.body.offsetTop;
+  assert_equals(td2.offsetWidth, 190);
+  table.style.borderCollapse = "collapse";
+  assert_equals(td2.offsetWidth, 250);
+}, "dynamic border-collapse" );
+
+test( _=> {
+  table.style.tableLayout = "auto";
+  table.style.borderCollapse = "separate"
+  document.body.offsetTop;
+  assert_equals(td2.offsetWidth, 190);
+  table.style.borderSpacing = "30px";
+  assert_equals(td2.offsetWidth, 160);
+}, "dynamic border-spacing" );
+
+</script>
+</body>
